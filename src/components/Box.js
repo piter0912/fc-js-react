@@ -1,17 +1,15 @@
 import React from 'react';
-import BoxBody from './BoxBody';
+import BoxList from './BoxList';
 import BoxFooter from './BoxFooter';
 import BoxHead from './BoxHead';
 
-const Box = (props) => {
-
-    const {type} = props;
+const Box = ({type, onAdd, onEdit, onDelete, onNameChange, onAmountChange, list, total}) => {
 
     return ( 
         <div className="main">
-            <BoxHead type={type} />
-            <BoxBody type={type} />
-            <BoxFooter type={type} />
+            <BoxHead type={type} onAdd={onAdd} onNameChange={onNameChange} onAmountChange={onAmountChange}/>
+            <BoxList type={type} list={list} onEdit={onEdit} onDelete={onDelete}/>
+            <BoxFooter type={type} total={total}/>
         </div>
      );
 }
