@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Form = ({type, onAdd, onNameChange, onAmountChange}) => {
+const Form = ({type, onAdd, name, amount, onNameChange, onAmountChange}) => {
 
     const handleAdd = () => {
         onAdd(type);
@@ -14,12 +14,14 @@ const Form = ({type, onAdd, onNameChange, onAmountChange}) => {
                 className="newName"
                 placeholder={type==="income" ? "Nazwa przychodu" : "Nazwa wydatku"}
                 onChange={onNameChange}
+                value={name}
             />
             <input 
                 type="number" 
                 id={`${type}_new_amount`}
                 placeholder="Kwota"
                 onChange={onAmountChange}
+                value={amount}
             />
             <button
                 id={`${type}_new_add`}

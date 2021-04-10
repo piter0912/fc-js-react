@@ -1,27 +1,31 @@
 import React from 'react';
 
-const ListElement = ({id, type, editable, text, amount, onEdit, onDelete}) => {
+const ListElement = ({id, type, text, amount, onEdit, onDelete, isInEdit}) => {
 
     const handleEdit = () => {
-        onEdit(type, id, editable);
+        onEdit(type, id);
     }
 
     const handleDelete = () => {
         onDelete(type, id);
     }
+
+    const style = isInEdit ? {border: '3px solid lightblue'} : {border: 0};
     
     return ( 
+        <div style={style}>
         <div className="listElement">
             <li className="elementName">
-                <span contenteditable={editable} className="item">{text}</span>
+                <span className="item">{text}</span>
                 <span> - </span>
-                <span contenteditable={editable} className="item incomeValue">{amount}</span>
+                <span className="item incomeValue">{amount}</span>
                 <span>zł</span>
             </li>
             <div className="buttons">
-                <button onClick={handleEdit} className="elementButton">{editable ? 'Zapisz' : 'Edytuj'}</button>
+                <button onClick={handleEdit} className="elementButton">{isInEdit ? 'W edycji' : 'Edytuj'}</button>
                 <button onClick={handleDelete} className="elementButton">Usuń</button>
             </div>
+        </div>
         </div>
      );
 }

@@ -1,12 +1,23 @@
 import React from 'react';
 import Form from './Form';
 
-const BoxHead = ({type, onAdd, onNameChange, onAmountChange}) => {
+const BoxHead = ({type, isInEdit, onAdd, name, amount, onNameChange, onAmountChange}) => {
+
+    const style = isInEdit ? {border: '3px solid lightblue'} : {border: 0};
 
     return ( 
-        <div class="elementHead">
+        <div className="elementHead">
             <h2 className="elementHeadTitle">{type==="income" ? 'PRZYCHODY' : 'WYDATKI'}</h2>
-            <Form onAdd={onAdd} type={type} onNameChange={onNameChange} onAmountChange={onAmountChange}/>
+            <div style={style}>
+                <Form 
+                    onAdd={onAdd} 
+                    type={type} 
+                    name={name}
+                    amount={amount}
+                    onNameChange={onNameChange} 
+                    onAmountChange={onAmountChange}                    
+                />
+            </div>
         </div>
      );
 }
