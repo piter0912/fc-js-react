@@ -31,7 +31,23 @@ function App() {
 
   useEffect(() => {
     setFormInputs();
-  },[inEdit])
+  },[inEdit]);
+
+  const handleIncomeNameChange = (e) => {
+    setIncomeName(e.target.value);
+  }
+
+  const handleIncomeAmountChange = (e) => {
+    setIncomeAmount(e.target.value);
+  } 
+
+  const handleExpenseNameChange = (e) => {
+    setExpenseName(e.target.value);
+  }
+
+  const handleExpenseAmountChange = (e) => {
+    setExpenseAmount(e.target.value);
+  }
   
   const handleAdd = (type) => {
     const name = type==="income" ? incomeName : expenseName;
@@ -53,22 +69,20 @@ function App() {
     blankInputs();
   }
 
-  const setFormInputs = () => {
-    if(inEdit.id === 0 || inEdit.type==='') {
+  const handleDelete = (type,idToDel) => {
+    if(inEdit.id !== 0) {
       return false;
     }
-    let list = inEdit.type==='income' ? incomesList : expensesList;
-    const element = list.find((el) => el.id === inEdit.id);
-    if(element === undefined) {
+    let list = type==='income' ? incomesList : expensesList;
+    const newList = list.filter(el => el.id !== idToDel);
+    type==='income' ? setIncomesList(newList) : setExpensesList(newList);
+  }
+
+  const handleEdit = (type, id) => {
+    if(inEdit.id !== 0) {
       return false;
-    }    
-    if(inEdit.type==='income') {
-      setIncomeName(element.text);
-      setIncomeAmount(element.amount);
-    } else {
-      setExpenseName(element.text);
-      setExpenseAmount(element.amount);
     }
+    setInEdit({id, type});
   }
 
   const handleSave = (type, name, amount) => {
@@ -83,37 +97,12 @@ function App() {
     type === 'income' ? setIncomesList(newList) : setExpensesList(newList);
   }
 
-  const handleIncomeNameChange = (e) => {
-    setIncomeName(e.target.value);
-  }
-
-  const handleIncomeAmountChange = (e) => {
-    setIncomeAmount(e.target.value);
+  const blankInputs = () => {
+    setIncomeName('');
+    setIncomeAmount(0);
+    setExpenseName('');
+    setExpenseAmount(0);
   } 
-
-  const handleExpenseNameChange = (e) => {
-    setExpenseName(e.target.value);
-  }
-
-  const handleExpenseAmountChange = (e) => {
-    setExpenseAmount(e.target.value);
-  }
-
-  const handleEdit = (type, id) => {
-    if(inEdit.id !== 0) {
-      return false;
-    }
-    setInEdit({id, type});
-  }
-
-  const handleDelete = (type,idToDel) => {
-    if(inEdit.id !== 0) {
-      return false;
-    }
-    let list = type==='income' ? incomesList : expensesList;
-    const newList = list.filter(el => el.id !== idToDel);
-    type==='income' ? setIncomesList(newList) : setExpensesList(newList);
-  }
 
   const checkInputs = (type, name, amount) => {
     const nameOk = name.length>=3;
@@ -131,20 +120,23 @@ function App() {
     return false;
   }
 
-  const checkAmount = (amount) => {
-    return !isNaN(Number(amount)) && Number(amount) > 0;
+  const setFormInputs = () => {
+    if(inEdit.id === 0 || inEdit.type==='') {
+      return false;
+    }
+    let list = inEdit.type==='income' ? incomesList : expensesList;
+    const element = list.find((el) => el.id === inEdit.id);
+    if(element === undefined) {
+      return false;
+    }    
+    if(inEdit.type==='income') {
+      setIncomeName(element.text);
+      setIncomeAmount(element.amount);
+    } else {
+      setExpenseName(element.text);
+      setExpenseAmount(element.amount);
+    }
   }
-
-  const checkName = (name) => {
-    return name.length>=3;
-  }
-
-  const blankInputs = () => {
-    setIncomeName('');
-    setIncomeAmount(0);
-    setExpenseName('');
-    setExpenseAmount(0);
-  } 
 
   return (
     <>
