@@ -11,7 +11,7 @@ function App() {
   const [incomesTotal, setIncomeTotal] = useState(0);
   const [expensesTotal, setExpensesTotal] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [inEdit, setInEdit] = useState({});
+  const [inEdit, setInEdit] = useState({id: 0, type: ''});
   const [incomeName, setIncomeName] = useState('');
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [expenseName, setExpenseName] = useState('');
@@ -35,40 +35,61 @@ function App() {
     if(!checkInputs(type,name,amount)){
       return false;
     }
-    const newListElement = {id: Date.now(), text: name, amount: amount};
-    if(type==='income') {
-      setIncomesList([...incomesList, newListElement]);
+    if(inEdit.id !== 0) {      
+      const name = type==='income' ? incomeName : expenseName;
+      const amount = type==='income' ? incomeAmount : expenseName;
+      handleSave(type, name, amount);
+      setInEdit({id: 0, type: ''});
     } else {
-      setExpensesList([...expensesList, newListElement]);
+      const newListElement = {id: Date.now(), text: name, amount: amount};
+      if(type==='income') {
+        setIncomesList([...incomesList, newListElement]);
+      } else {
+        setExpensesList([...expensesList, newListElement]);
+      }
     }
+    blankInputs();
+  }
+
+  const handleSave = (type, name, amount) => {
+    let list = type==='income' ? incomesList : expensesList;
+    const newList = list.map(el => {
+      if(el.id===inEdit.id) {
+        return {id: el.id, text: name, amount}
+      } else {
+        return el;
+      }
+    })
+    type === 'income' ? setIncomesList(newList) : setExpensesList(newList);
   }
 
   const handleIncomeNameChange = (e) => {
     setIncomeName(e.target.value);
-    console.log(e.target.value);
   }
 
   const handleIncomeAmountChange = (e) => {
     setIncomeAmount(e.target.value);
-    console.log(e.target.value);
   } 
 
   const handleExpenseNameChange = (e) => {
     setExpenseName(e.target.value);
-    console.log(e.target.value);
   }
 
   const handleExpenseAmountChange = (e) => {
     setExpenseAmount(e.target.value);
-    console.log(e.target.value);
   }
 
-  const handleEdit = (type, id, editable) => {
-    console.log('Edycja');
+  const handleEdit = (type, id) => {
+    if(inEdit.id !== 0) {
+      return false;
+    }
+    setInEdit({id, type});
   }
 
-  const handleDelete = (id) => {
-    console.log('Kasowanie');
+  const handleDelete = (type,idToDel) => {
+    let list = type==='income' ? incomesList : expensesList;
+    const newList = list.filter(el => el.id !== idToDel);
+    type==='income' ? setIncomesList(newList) : setExpensesList(newList);
   }
 
   const checkInputs = (type, name, amount) => {
@@ -87,13 +108,20 @@ function App() {
     return false;
   }
 
-  function checkAmount(amount) {
+  const checkAmount = (amount) => {
     return !isNaN(Number(amount)) && Number(amount) > 0;
   }
 
-  function checkName(name) {
+  const checkName = (name) => {
     return name.length>=3;
   }
+
+  const blankInputs = () => {
+    setIncomeName('');
+    setIncomeAmount(0);
+    setExpenseName('');
+    setExpenseAmount(0);
+  } 
 
   return (
     <>

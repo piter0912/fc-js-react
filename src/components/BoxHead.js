@@ -14,6 +14,7 @@ const BoxHead = ({type, isInEdit, onAdd, name, amount, onNameChange, onAmountCha
                     type={type} 
                     name={name}
                     amount={amount}
+                    isInEdit={isInEdit}
                     onNameChange={onNameChange} 
                     onAmountChange={onAmountChange}                    
                 />

@@ -3,7 +3,7 @@ import BoxList from './BoxList';
 import BoxFooter from './BoxFooter';
 import BoxHead from './BoxHead';
 
-const Box = ({type, onAdd, inEdit, isInEdit, name, amount, onDelete, onNameChange, onAmountChange, list, total}) => {
+const Box = ({type, onAdd, onEdit, inEdit, isInEdit, name, amount, onDelete, onNameChange, onAmountChange, list, total}) => {
 
     return ( 
         <div className="main">
@@ -20,6 +20,7 @@ const Box = ({type, onAdd, inEdit, isInEdit, name, amount, onDelete, onNameChang
                 type={type} 
                 list={list} 
                 inEdit={inEdit} 
+                onEdit={onEdit}
                 onDelete={onDelete}                    
             />
             <BoxFooter 
