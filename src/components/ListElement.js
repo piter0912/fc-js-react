@@ -21,10 +21,10 @@ const ListElement = ({id, type, text, amount, onEdit, onDelete, isInEdit}) => {
                 <span className="item incomeValue">{amount}</span>
                 <span>zł</span>
             </li>
-            <div className="buttons">
+            {!isInEdit && <div className="buttons">
                 <button onClick={handleEdit} className="elementButton">{isInEdit ? 'W edycji' : 'Edytuj'}</button>
                 <button onClick={handleDelete} className="elementButton">Usuń</button>
-            </div>
+            </div>}
         </div>
         </div>
      );

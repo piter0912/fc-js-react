@@ -28,6 +28,10 @@ function App() {
   useEffect(() => {
     setBalance(incomesTotal-expensesTotal);
   },[incomesTotal, expensesTotal]);
+
+  useEffect(() => {
+    setFormInputs();
+  },[inEdit])
   
   const handleAdd = (type) => {
     const name = type==="income" ? incomeName : expenseName;
@@ -36,8 +40,6 @@ function App() {
       return false;
     }
     if(inEdit.id !== 0) {      
-      const name = type==='income' ? incomeName : expenseName;
-      const amount = type==='income' ? incomeAmount : expenseName;
       handleSave(type, name, amount);
       setInEdit({id: 0, type: ''});
     } else {
@@ -49,6 +51,24 @@ function App() {
       }
     }
     blankInputs();
+  }
+
+  const setFormInputs = () => {
+    if(inEdit.id === 0 || inEdit.type==='') {
+      return false;
+    }
+    let list = inEdit.type==='income' ? incomesList : expensesList;
+    const element = list.find((el) => el.id === inEdit.id);
+    if(element === undefined) {
+      return false;
+    }    
+    if(inEdit.type==='income') {
+      setIncomeName(element.text);
+      setIncomeAmount(element.amount);
+    } else {
+      setExpenseName(element.text);
+      setExpenseAmount(element.amount);
+    }
   }
 
   const handleSave = (type, name, amount) => {
@@ -87,6 +107,9 @@ function App() {
   }
 
   const handleDelete = (type,idToDel) => {
+    if(inEdit.id !== 0) {
+      return false;
+    }
     let list = type==='income' ? incomesList : expensesList;
     const newList = list.filter(el => el.id !== idToDel);
     type==='income' ? setIncomesList(newList) : setExpensesList(newList);
