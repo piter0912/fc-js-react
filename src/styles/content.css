@@ -7,6 +7,15 @@ input[type="number"] {
   width: 80px;
 }
 
+input.item {
+  border: 0;
+  font-size: 25px;
+}
+
+input:focus {
+  outline: none;
+}
+
 input {
   margin: 0 3px;
   height: 30px;

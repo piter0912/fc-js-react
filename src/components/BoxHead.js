@@ -3,12 +3,10 @@ import Form from './Form';
 
 const BoxHead = ({type, isInEdit, onAdd, name, amount, onNameChange, onAmountChange}) => {
 
-    const style = isInEdit ? {border: '3px solid lightblue'} : {border: 0};
-
     return ( 
         <div className="elementHead">
             <h2 className="elementHeadTitle">{type==="income" ? 'PRZYCHODY' : 'WYDATKI'}</h2>
-            <div style={style}>
+            <div>
                 <Form 
                     onAdd={onAdd} 
                     type={type} 

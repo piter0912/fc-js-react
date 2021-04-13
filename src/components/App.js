@@ -4,6 +4,23 @@ import Content from './Content';
 import '../styles/content.css';
 import '../styles/header.css';
 
+
+export const checkInputs = (type, name, amount) => {
+  const nameOk = name.length>=3;
+  const amountOk = amount>0;
+  const typePl = type === "income" ? 'przychodu' : 'wydatku';
+  if(!nameOk && !amountOk) {
+    alert(`Należy podać poprawną nazwę ${typePl} (min. 3 znaki) oraz kwotę (większą od zera)`);
+  } else if(!nameOk) {
+      alert(`Nazwa ${typePl} musi mieć min. 3 znaki.`);
+  } else if(!amountOk) {
+      alert(`Kwota ${typePl} musi być większa od zera`);
+  } else {
+      return true;
+  }
+  return false;
+}
+
 function App() {
 
   const [incomesList, setIncomesList] = useState([]);
@@ -29,10 +46,6 @@ function App() {
     setBalance(incomesTotal-expensesTotal);
   },[incomesTotal, expensesTotal]);
 
-  useEffect(() => {
-    setFormInputs();
-  },[inEdit]);
-
   const handleIncomeNameChange = (e) => {
     setIncomeName(e.target.value);
   }
@@ -54,10 +67,6 @@ function App() {
     const amount = type==="income" ? Number(incomeAmount) : Number(expenseAmount);
     if(!checkInputs(type,name,amount)){
       return false;
-    }
-    if(inEdit.id !== 0) {      
-      handleSave(type, name, amount);
-      setInEdit({id: 0, type: ''});
     } else {
       const newListElement = {id: Date.now(), text: name, amount: amount};
       if(type==='income') {
@@ -78,11 +87,13 @@ function App() {
     type==='income' ? setIncomesList(newList) : setExpensesList(newList);
   }
 
-  const handleEdit = (type, id) => {
+  const handleEdit = (type, id, name, amount) => {
     if(inEdit.id !== 0) {
-      return false;
+      handleSave(type, name, amount);
+      setInEdit({id: 0, type: ''});      
+    } else {
+      setInEdit({id, type});
     }
-    setInEdit({id, type});
   }
 
   const handleSave = (type, name, amount) => {
@@ -103,40 +114,6 @@ function App() {
     setExpenseName('');
     setExpenseAmount(0);
   } 
-
-  const checkInputs = (type, name, amount) => {
-    const nameOk = name.length>=3;
-    const amountOk = amount>0;
-    const typePl = type === "income" ? 'przychodu' : 'wydatku';
-    if(!nameOk && !amountOk) {
-      alert(`Należy podać poprawną nazwę ${typePl} (min. 3 znaki) oraz kwotę (większą od zera)`);
-    } else if(!nameOk) {
-        alert(`Nazwa ${typePl} musi mieć min. 3 znaki.`);
-    } else if(!amountOk) {
-        alert(`Kwota ${typePl} musi być większa od zera`);
-    } else {
-        return true;
-    }
-    return false;
-  }
-
-  const setFormInputs = () => {
-    if(inEdit.id === 0 || inEdit.type==='') {
-      return false;
-    }
-    let list = inEdit.type==='income' ? incomesList : expensesList;
-    const element = list.find((el) => el.id === inEdit.id);
-    if(element === undefined) {
-      return false;
-    }    
-    if(inEdit.type==='income') {
-      setIncomeName(element.text);
-      setIncomeAmount(element.amount);
-    } else {
-      setExpenseName(element.text);
-      setExpenseAmount(element.amount);
-    }
-  }
 
   return (
     <>

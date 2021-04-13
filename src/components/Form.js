@@ -7,7 +7,6 @@ const Form = ({type, onAdd, isInEdit, name, amount, onNameChange, onAmountChange
     }
 
     const handleKeyPress = (event) => {
-        console.log(event.keyCode);
         if (event.key === 'Enter') {
             onAdd(type);
         } 
@@ -23,6 +22,7 @@ const Form = ({type, onAdd, isInEdit, name, amount, onNameChange, onAmountChange
                 onChange={onNameChange}
                 onKeyPress={handleKeyPress}
                 value={name}
+                readOnly={isInEdit}
             />
             <input 
                 type="number" 
@@ -31,12 +31,14 @@ const Form = ({type, onAdd, isInEdit, name, amount, onNameChange, onAmountChange
                 onChange={onAmountChange}
                 onKeyPress={handleKeyPress}
                 value={amount}
+                readOnly={isInEdit}
             />
             <button
                 id={`${type}_new_add`}
                 onClick={handleAdd}
+                disabled={isInEdit}
             >
-                {isInEdit ? 'Zapisz' : 'Dodaj'}
+                Dodaj
             </button>
         </div>
      );
