@@ -5,7 +5,7 @@ const Header = ({balance}) => {
     // const title = balance > 0 ? `Możesz jeszcze wydać ${balance} złotych.` : balance === 0 ? 'Bilans wynosi zero' : `Bilans jest ujemny. Jesteś na minusie ${Math.abs(balance)} złotych.`;
 
     const getTitle = () => {
-        const pln = balance === 0 ? '' : ['1'].includes(String(balance).slice(-1)) ? 'złoty' : ['2','3','4'].includes(String(balance).slice(-1)) ? 'złote' : 'złotych';
+        const pln = balance === 0 ? '' : ['1'].includes(String(balance).slice(-1)) ? 'złoty' : ['2','3','4'].includes(String(balance)) ? 'złote' : balance <= 21 ? 'złoty' : ['2','3','4'].includes(String(balance).slice(-1)) ? 'złote' : 'złoty';
         const title = balance > 0 ? `Możesz jeszcze wydać ${balance} ${pln}.` : balance === 0 ? 'Bilans wynosi zero' : `Bilans jest ujemny. Jesteś na minusie ${Math.abs(balance)} ${pln}.`;
         return title;
     }
