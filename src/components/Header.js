@@ -2,11 +2,21 @@ import React from 'react';
 
 const Header = ({balance}) => {
 
+    const slownie = (amount) => {
+        const lastDigit = Number(String(amount).slice(-1));
+        const lastTwoDigits = Number(String(amount).slice(-2));
+        if([0,1,5,6,7,8,9].includes(lastDigit) || ( 10<=lastTwoDigits && lastTwoDigits<=21) ) {
+            return 'złoty';
+        } else {
+            return 'złote';
+        }
+    }
+
     const getTitle = () => {
-        const pln = balance === 0 ? '' : ['1'].includes(String(balance).slice(-1)) ? 'złoty' : ['2','3','4'].includes(String(balance)) ? 'złote' : balance <= 21 ? 'złoty' : ['2','3','4'].includes(String(balance).slice(-1)) ? 'złote' : 'złoty';
+        const pln = slownie(balance);
         const title = balance > 0 ? `Możesz jeszcze wydać ${balance} ${pln}.` : balance === 0 ? 'Bilans wynosi zero' : `Bilans jest ujemny. Jesteś na minusie ${Math.abs(balance)} ${pln}.`;
         return title;
-    }
+    }   
 
     return ( 
         <div id="header">
